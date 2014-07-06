@@ -9,6 +9,8 @@ import traceback
 import warnings
 import weakref
 
+import six
+
 from behave import matchers
 from behave.step_registry import setup_step_decorators
 from behave.formatter import formatters
@@ -265,7 +267,7 @@ class Context(object):
 
         Returns boolean False if the steps are not parseable, True otherwise.
         '''
-        assert isinstance(steps_text, unicode), "Steps must be unicode."
+        assert isinstance(steps_text, six.text_type), "Steps must be unicode."
         if not self.feature:
             raise ValueError('execute_steps() called outside of feature')
 
@@ -411,11 +413,11 @@ class ModelRunner(object):
             self.context = Context(self)
 
         if self.config.stdout_capture:
-            self.stdout_capture = StringIO.StringIO()
+            self.stdout_capture = six.moves.StringIO()
             self.context.stdout_capture = self.stdout_capture
 
         if self.config.stderr_capture:
-            self.stderr_capture = StringIO.StringIO()
+            self.stderr_capture = six.moves.StringIO()
             self.context.stderr_capture = self.stderr_capture
 
         if self.config.log_capture:

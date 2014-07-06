@@ -3,6 +3,9 @@
 __status__ = "DEAD, BROKEN"
 
 import re
+
+import six
+
 from gherkin.formatter import filters
 
 re_type = type(re.compile(''))
@@ -95,7 +98,7 @@ class FilterFormatter(object):
 
     def detect_filters(self, filter_list):
         filter_classes = set([type(f) for f in filter_list])
-        if len(filter_classes) > 1 and filter_classes != set([str, unicode]):
+        if len(filter_classes) > 1 and filter_classes != set([bytes, six.text_type]):
             message = "Inconsistent filters: %r" % (filter_list, )
             raise FilterError(message)
 

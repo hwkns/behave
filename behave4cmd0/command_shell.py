@@ -79,12 +79,12 @@ class Command(object):
         Make a subprocess call, collect its output and returncode.
         Returns CommandResult instance as ValueObject.
         """
-        assert isinstance(command, basestring)
+        assert isinstance(command, six.string_types)
         command_result = CommandResult()
         command_result.command = command
 
         # -- BUILD COMMAND ARGS:
-        if isinstance(command, unicode):
+        if isinstance(command, six.text_type):
             command = codecs.encode(command)
         cmdargs = shlex.split(command)
 
@@ -142,7 +142,7 @@ def behave(cmdline, cwd=".", **kwargs):
     Run behave as subprocess command and return process/shell instance
     with results (collected output, returncode).
     """
-    assert isinstance(cmdline, basestring)
+    assert isinstance(cmdline, six.string_types)
     return run("behave " + cmdline, cwd=cwd, **kwargs)
 
 # -----------------------------------------------------------------------------

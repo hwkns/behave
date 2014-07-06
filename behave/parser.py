@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import with_statement
+
+import six
 
 from behave import model, i18n
 
@@ -16,7 +17,7 @@ def parse_file(filename, language=None):
 
 def parse_feature(data, language=None, filename=None):
     # ALL data operated on by the parser MUST be unicode
-    assert isinstance(data, unicode)
+    assert isinstance(data, six.text_type)
 
     try:
         result = Parser(language).parse(data, filename)
@@ -36,7 +37,7 @@ def parse_steps(text, language=None, filename=None):
     :param filename:  Filename (optional).
     :return: Parsed steps (if successful).
     """
-    assert isinstance(text, unicode)
+    assert isinstance(text, six.text_type)
     try:
         result = Parser(language, variant='steps').parse_steps(text, filename)
     except ParserError as e:
@@ -51,7 +52,7 @@ def parse_tags(text):
     :param text: Multi-line text with tags to parse (as unicode).
     :return: List of tags (if successful).
     """
-    # assert isinstance(text, unicode)
+    # assert isinstance(text, six.text_type)
     if not text:
         return []
     return Parser().parse_tags(text)
@@ -506,7 +507,7 @@ class Parser(object):
         :param text:  Text that contains 0..* steps
         :return: List of parsed steps (as model.Step objects).
         """
-        assert isinstance(text, unicode)
+        assert isinstance(text, six.text_type)
         if not self.language:
             self.language = u"en"
         self.reset()

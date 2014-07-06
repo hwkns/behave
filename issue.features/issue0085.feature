@@ -110,7 +110,7 @@ Feature: Issue #85: AssertionError with nested regex and pretty formatter
         """
     And  the command output should not contain
         """
-        assert isinstance(text, unicode)
+        assert isinstance(text, six.text_type)
         """
     And  the command output should not contain
         """

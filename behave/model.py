@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import with_statement, absolute_import
 
-from __future__ import with_statement
 import copy
 import difflib
 import itertools
@@ -8,8 +8,11 @@ import os.path
 import sys
 import time
 import traceback
-from behave import step_registry
-from behave.compat.os_path import relpath
+
+import six
+
+from . import step_registry
+from .compat.os_path import relpath
 
 
 class Argument(object):
@@ -48,7 +51,7 @@ class Argument(object):
 
 
 # @total_ordering
-# class FileLocation(unicode):
+# class FileLocation(six.text_type):
 class FileLocation(object):
     """
     Provides a value object for file location objects.
@@ -71,8 +74,8 @@ class FileLocation(object):
         self.line = line
 
     # def __new__(cls, filename, line=None):
-    #     assert isinstance(filename, basestring)
-    #     obj = unicode.__new__(cls, filename)
+    #     assert isinstance(filename, six.string_types)
+    #     obj = six.text_type.__new__(cls, filename)
     #     obj.line = line
     #     obj.__filename = filename
     #     return obj
@@ -109,7 +112,7 @@ class FileLocation(object):
     def __eq__(self, other):
         if isinstance(other, FileLocation):
             return self.filename == other.filename and self.line == other.line
-        elif isinstance(other, basestring):
+        elif isinstance(other, six.string_types):
             return self.filename == other
         else:
             raise AttributeError("Cannot compare FileLocation with %s:%s" % \
@@ -127,7 +130,7 @@ class FileLocation(object):
             else:
                 assert self.filename == other.filename
                 return self.line < other.line
-        elif isinstance(other, basestring):
+        elif isinstance(other, six.string_types):
             return self.filename < other
         else:
             raise AttributeError("Cannot compare FileLocation with %s:%s" % \
@@ -163,8 +166,8 @@ class BasicStatement(object):
         filename = filename or '<string>'
         filename = relpath(filename, os.getcwd())   # -- NEEDS: abspath?
         self.location = FileLocation(filename, line)
-        assert isinstance(keyword, unicode)
-        assert isinstance(name, unicode)
+        assert isinstance(keyword, six.text_type)
+        assert isinstance(name, six.text_type)
         self.keyword = keyword
         self.name = name
 
@@ -1598,7 +1601,7 @@ class Row(object):
         self.headings = headings
         self.comments = comments
         for c in cells:
-            assert isinstance(c, unicode)
+            assert isinstance(c, six.text_type)
         self.cells = cells
         self.line = line
 
@@ -1645,7 +1648,7 @@ class Row(object):
         return OrderedDict(self.items())
 
 
-class Tag(unicode):
+class Tag(six.text_type):
     """Tags appear may be associated with Features or Scenarios.
 
     They're a subclass of regular strings (unicode pre-Python 3) with an
@@ -1655,7 +1658,7 @@ class Tag(unicode):
     See :ref:`controlling things with tags`.
     """
     def __new__(cls, name, line):
-        o = unicode.__new__(cls, name)
+        o = six.text_type.__new__(cls, name)
         o.line = line
         return o
 
@@ -1670,7 +1673,7 @@ class Tag(unicode):
         :param text: Unicode text as input for name.
         :return: Unicode name that can be used as tag.
         """
-        assert isinstance(text, unicode)
+        assert isinstance(text, six.text_type)
         if unescape:
             # -- UNESCAPE: Some escaped sequences
             text = text.replace("\\t", "\t").replace("\\n", "\n")
@@ -1684,7 +1687,7 @@ class Tag(unicode):
         return u"".join(chars)
 
 
-class Text(unicode):
+class Text(six.text_type):
     '''Store multiline text from a Step definition.
 
     The attributes are:
@@ -1698,9 +1701,9 @@ class Text(unicode):
        Currently only 'text/plain'.
     '''
     def __new__(cls, value, content_type=u'text/plain', line=0):
-        assert isinstance(value, unicode)
-        assert isinstance(content_type, unicode)
-        o = unicode.__new__(cls, value)
+        assert isinstance(value, six.text_type)
+        assert isinstance(content_type, six.text_type)
+        o = six.text_type.__new__(cls, value)
         o.content_type = content_type
         o.line = line
         return o

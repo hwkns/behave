@@ -20,6 +20,8 @@ import os.path
 import shutil
 import sys
 
+import six
+
 __author__ = "Jens Engel"
 __copyright__ = "(c) 2013 by Jens Engel"
 __license__ = "BSD"
@@ -183,7 +185,7 @@ def discover_commands():
 
 class Command(object):
     def __init__(self, name, func):
-        assert isinstance(name, basestring)
+        assert isinstance(name, six.string_types)
         assert callable(func)
         self.name = name
         self.func = func

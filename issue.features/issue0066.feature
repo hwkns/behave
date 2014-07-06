@@ -8,6 +8,7 @@ Feature: Issue #66: context.text and context.table are not cleared
     Given a new working directory
     And   a file named "features/steps/steps.py" with:
       """
+      import six
       from behave import given, when, then
       from hamcrest import assert_that, equal_to, is_not, is_, none
 
@@ -15,7 +16,7 @@ Feature: Issue #66: context.text and context.table are not cleared
       def step(context):
           assert context.text is not None
           assert context.text, "Ensure non-empty"
-          assert isinstance(context.text, basestring)
+          assert isinstance(context.text, six.string_types)
 
       @given(u'a step with a table')
       def step(context):

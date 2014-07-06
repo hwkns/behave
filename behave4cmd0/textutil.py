@@ -7,9 +7,14 @@ TODO:
 """
 
 from __future__ import unicode_literals
+
+import codecs
+
+import six
+
 from hamcrest import assert_that, is_not, equal_to, contains_string
 # DISABLED: from behave4cmd.hamcrest_text import matches_regexp
-import codecs
+
 
 DEBUG = False
 
@@ -29,7 +34,7 @@ DEBUG = False
 #         from behave4cmd.textutil import TextProxy
 #         message = TextProxy("Hello world", encoding="UTF-8")
 #         assert message.data == "Hello world"  # -- RAW DATA access.
-#         assert isinstance(message.text, basestring)
+#         assert isinstance(message.text, six.string_types)
 #         assert isinstance(message.bytes, bytes)
 #         assert message == "Hello world"
 #         assert len(message) == len(message.data) == 11
@@ -57,14 +62,14 @@ DEBUG = False
 #     def text(self):
 #         """Provide access to string-representation of the data."""
 #         if self._text is None:
-#             if isinstance(self.data, basestring):
+#             if isinstance(self.data, six.string_types):
 #                 _text = self.data
 #             elif isinstance(self.data, bytes):
 #                 _text = codecs.decode(self.data, self.encoding, self.errors)
 #             else:
 #                 _text = str(self.data)
 #             self._text = _text
-#         assert isinstance(self._text, basestring)
+#         assert isinstance(self._text, six.string_types)
 #         return self._text
 #
 #     @property
@@ -75,9 +80,9 @@ DEBUG = False
 #                 self._bytes = self.data
 #             else:
 #                 text = self.data
-#                 if not isinstance(text, basestring):
-#                     text = unicode(text)
-#                 assert isinstance(text, basestring)
+#                 if not isinstance(text, six.string_types):
+#                     text = six.text_type(text)
+#                 assert isinstance(text, six.string_types)
 #                 self._bytes = codecs.encode(text, self.encoding, self.errors)
 #         assert isinstance(self._bytes, bytes)
 #         return self._bytes
@@ -86,7 +91,7 @@ DEBUG = False
 #         """Textual representation of this object."""
 #         data = self.data or ""
 #         prefix = ""
-#         if isinstance(data, bytes) and not isinstance(data, basestring):
+#         if isinstance(data, bytes) and not isinstance(data, six.string_types):
 #             prefix= u"b"
 # #        str(self.text)
 # #        str(self.encoding)
@@ -116,7 +121,7 @@ DEBUG = False
 #
 #     def __contains__(self, item):
 #         """Check if item is contained in raw data."""
-#         if isinstance(item, basestring):
+#         if isinstance(item, six.string_types):
 #             return item in self.text
 #         elif isinstance(item, bytes):
 #             return item in self.bytes
@@ -132,7 +137,7 @@ DEBUG = False
 #         return len(self) > 0
 #
 #     def __eq__(self, other):
-#         if isinstance(other, basestring):
+#         if isinstance(other, six.string_types):
 #             return self.text == other
 #         elif isinstance(other, bytes):
 #             return self.bytes == other

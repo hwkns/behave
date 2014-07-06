@@ -6,14 +6,15 @@ import sys
 import argparse
 import logging
 import shlex
-from six.moves import configparser
 
-from behave.model import FileLocation, ScenarioOutline
-from behave.reporter.junit import JUnitReporter
-from behave.reporter.summary import SummaryReporter
-from behave.tag_expression import TagExpression
-from behave.formatter.base import StreamOpener
-from behave.formatter.formatters import formatters as registered_formatters
+import six
+
+from .model import FileLocation, ScenarioOutline
+from .reporter.junit import JUnitReporter
+from .reporter.summary import SummaryReporter
+from .tag_expression import TagExpression
+from .formatter.base import StreamOpener
+from .formatter.formatters import formatters as registered_formatters
 
 
 class Unknown(object): pass
@@ -331,7 +332,7 @@ raw_value_options = frozenset([
 ])
 
 def read_configuration(path):
-    cfg = configparser.SafeConfigParser()
+    cfg = six.moves.configparser.SafeConfigParser()
     cfg.read(path)
     cfgdir = os.path.dirname(path)
     result = {}
@@ -467,8 +468,8 @@ class Configuration(object):
         """
         if command_args is None:
             command_args = sys.argv[1:]
-        elif isinstance(command_args, basestring):
-            if isinstance(command_args, unicode):
+        elif isinstance(command_args, six.string_types):
+            if isinstance(command_args, six.text_type):
                 command_args = command_args.encode("utf-8")
             command_args = shlex.split(command_args)
         if verbose is None:
@@ -616,5 +617,5 @@ class Configuration(object):
 
     def setup_model(self):
         if self.scenario_outline_annotation_schema:
-            name_schema = unicode(self.scenario_outline_annotation_schema)
+            name_schema = six.text_type(self.scenario_outline_annotation_schema)
             ScenarioOutline.annotation_schema = name_schema.strip()

@@ -3,14 +3,17 @@
 Contains utility functions and classes for Runners.
 """
 
-from behave import parser
-from behave.model import FileLocation
-from bisect import bisect
 import glob
 import os.path
 import re
 import sys
 import types
+from bisect import bisect
+
+import six
+
+from . import parser
+from .model import FileLocation
 
 
 # -----------------------------------------------------------------------------
@@ -278,7 +281,7 @@ def parse_features(feature_files, language=None):
     features = []
     for location in feature_files:
         if not isinstance(location, FileLocation):
-            assert isinstance(location, basestring)
+            assert isinstance(location, six.string_types)
             location = FileLocation(os.path.normpath(location))
 
         if location.filename == scenario_collector.filename:

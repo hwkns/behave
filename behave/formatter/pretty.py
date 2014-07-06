@@ -1,10 +1,13 @@
 # -*- coding: utf8 -*-
 
-from behave.formatter.ansi_escapes import escapes, up
-from behave.formatter.base import Formatter
-from behave.model_describe import escape_cell, escape_triple_quotes
-from behave.textutil import indent
 import sys
+
+import six
+
+from .ansi_escapes import escapes, up
+from .base import Formatter
+from ..model_describe import escape_cell, escape_triple_quotes
+from ..textutil import indent
 
 
 # -----------------------------------------------------------------------------
@@ -38,7 +41,7 @@ def get_terminal_size():
 # -----------------------------------------------------------------------------
 class MonochromeFormat(object):
     def text(self, text):
-        assert isinstance(text, unicode)
+        assert isinstance(text, six.text_type)
         return text
 
 
@@ -47,7 +50,7 @@ class ColorFormat(object):
         self.status = status
 
     def text(self, text):
-        assert isinstance(text, unicode)
+        assert isinstance(text, six.text_type)
         return escapes[self.status] + text + escapes['reset']
 
 
@@ -264,7 +267,7 @@ class PrettyFormatter(Formatter):
         self.stream.write(u"  %s: %s " % (self.statement.keyword,
                                           self.statement.name))
 
-        location = self.indented_text(unicode(self.statement.location), True)
+        location = self.indented_text(six.text_type(self.statement.location), True)
         if self.show_source:
             self.stream.write(self.format('comments').text(location))
         self.stream.write("\n")
@@ -289,7 +292,7 @@ class PrettyFormatter(Formatter):
         self.stream.write(text_format.text(step.keyword + ' '))
         line_length = 5 + len(step.keyword)
 
-        step_name = unicode(step.name)
+        step_name = six.text_type(step.name)
 
         text_start = 0
         for arg in arguments:
@@ -313,7 +316,7 @@ class PrettyFormatter(Formatter):
             line_length += (len(text))
 
         if self.show_source:
-            location = unicode(location)
+            location = six.text_type(location)
             if self.show_timings and status in ('passed', 'failed'):
                 location += ' %0.3fs' % step.duration
             location = self.indented_text(location, proceed)

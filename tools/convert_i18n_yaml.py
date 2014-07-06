@@ -3,6 +3,7 @@
 import pprint
 import sys
 
+import six
 import yaml
 
 #
@@ -15,7 +16,7 @@ for language in languages:
     for k in keywords:
         v = keywords[k]
         # bloody YAML parser returns a mixture of unicode and str
-        if not isinstance(v, unicode):
+        if not isinstance(v, six.text_type):
             v = v.decode('utf8')
         keywords[k] = v.split('|')
 
