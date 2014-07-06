@@ -21,7 +21,7 @@ class JSONFormatter(Formatter):
     dumps_kwargs = {}
     split_text_into_lines = True   # EXPERIMENT for better readability.
 
-    json_number_types = (int, long, float)
+    json_number_types = six.integer_types + (float,)
     json_scalar_types = json_number_types + (six.text_type, bool, type(None))
 
     def __init__(self, stream_opener, config):
