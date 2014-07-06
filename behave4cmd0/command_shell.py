@@ -123,7 +123,7 @@ class Command(object):
                 print("shell.cwd={0}".format(kwargs.get("cwd", None)))
                 print("shell.command: {0}".format(" ".join(cmdargs)))
                 print("shell.command.output:\n{0};".format(command_result.output))
-        except OSError, e:
+        except OSError as e:
             command_result.stderr = u"OSError: %s" % e
             command_result.returncode = e.errno
             assert e.errno != 0

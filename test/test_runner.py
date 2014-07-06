@@ -119,7 +119,7 @@ class TestContext(unittest.TestCase):
 
         warnings.showwarning = old_showwarning
 
-        print repr(warns)
+        print(repr(warns))
         assert warns, 'warns is empty!'
         warning = warns[0]
         assert isinstance(warning, runner.ContextMaskWarning), 'warning is not a ContextMaskWarning'
@@ -164,7 +164,7 @@ class TestContext(unittest.TestCase):
 
         warnings.showwarning = old_showwarning
 
-        print repr(warns)
+        print(repr(warns))
         assert warns, 'warns is empty!'
         warning = warns[0]
         assert isinstance(warning, runner.ContextMaskWarning), 'warning is not a ContextMaskWarning'
@@ -190,7 +190,7 @@ class TestContext(unittest.TestCase):
 
         warnings.showwarning = old_showwarning
 
-        print repr(warns)
+        print(repr(warns))
         assert warns
         warning = warns[0]
         assert isinstance(warning, runner.ContextMaskWarning)
@@ -293,7 +293,7 @@ Then a step passes
         with patch('behave.step_registry.registry', self.step_registry):
             try:
                 result = self.context.execute_steps(doc)
-            except AssertionError, e:  # -- PY26-CLEANUP-MARK
+            except AssertionError as e:
                 ok_("FAILED SUB-STEP: When a step fails" in str(e))
 
     def test_execute_steps_with_undefined_step(self):
@@ -305,7 +305,7 @@ Then a step passes
         with patch('behave.step_registry.registry', self.step_registry):
             try:
                 result = self.context.execute_steps(doc)
-            except AssertionError, e:  # -- PY26-CLEANUP-MARK
+            except AssertionError as e:
                 ok_("UNDEFINED SUB-STEP: When a step is undefined" in str(e))
 
     def test_execute_steps_with_text(self):
@@ -648,7 +648,7 @@ class FsMock(object):
             return bits
 
         paths = [os.path.join(self.base, *full_split(path)) for path in paths]
-        print repr(paths)
+        print(repr(paths))
         self.paths = paths
         self.files = set()
         self.dirs = defaultdict(list)

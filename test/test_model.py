@@ -385,7 +385,7 @@ class TestStepRun(unittest.TestCase):
         self.config = self.runner.config = Mock()
         self.config.outputs = [None]
         self.context = self.runner.context = Mock()
-        print ('context is', self.context)
+        print('context is', self.context)
         self.formatters = self.runner.formatters = [Mock()]
         self.step_registry = Mock()
         self.stdout_capture = self.runner.stdout_capture = Mock()

@@ -1341,12 +1341,12 @@ class Step(BasicStatement, Replayable):
             runner.context.table = self.table
             match.run(runner.context)
             self.status = 'passed'
-        except KeyboardInterrupt, e:
+        except KeyboardInterrupt as e:
             runner.aborted = True
             error = u"ABORTED: By user (KeyboardInterrupt)."
             self.status = 'failed'
             self.store_exception_context(e)
-        except AssertionError, e:
+        except AssertionError as e:
             self.status = 'failed'
             self.store_exception_context(e)
             if e.args:
@@ -1354,7 +1354,7 @@ class Step(BasicStatement, Replayable):
             else:
                 # no assertion text; format the exception
                 error = traceback.format_exc()
-        except Exception, e:
+        except Exception as e:
             self.status = 'failed'
             error = traceback.format_exc()
             self.store_exception_context(e)

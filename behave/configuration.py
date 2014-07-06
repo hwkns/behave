@@ -373,7 +373,7 @@ def read_configuration(path):
                 outfiles.append(outfile)
             result['outfiles'] = outfiles
         elif len(outfiles) > formatter_size:
-            print "CONFIG-ERROR: Too many outfiles (%d) provided." % outfiles_size
+            print("CONFIG-ERROR: Too many outfiles (%d) provided." % outfiles_size)
             result['outfiles'] = outfiles[:formatter_size]
 
     for paths_name in ('paths', 'outfiles'):
@@ -397,13 +397,13 @@ def load_configuration(defaults, verbose=False):
             filename = os.path.join(path, filename)
             if os.path.isfile(filename):
                 if verbose:
-                    print 'Loading config defaults from "%s"' % filename
+                    print('Loading config defaults from "%s"' % filename)
                 defaults.update(read_configuration(filename))
 
     if verbose:
-        print 'Using defaults:'
+        print('Using defaults:')
         for k, v in defaults.items():
-            print '%15s %s' % (k, v)
+            print('%15s %s' % (k, v))
 
 
 # construct the parser
